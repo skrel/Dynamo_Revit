@@ -1,0 +1,137 @@
+{
+  "Uuid": "3943d537-23da-47d2-8bce-b97ce1bed044",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "Selecting all elements in a conduit run",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "import clr\r\nimport math\r\n\r\nclr.AddReference(\"RevitServices\")\r\nimport RevitServices\r\nfrom RevitServices.Persistence import DocumentManager\r\nfrom RevitServices.Transactions import TransactionManager\r\ndoc = DocumentManager.Instance.CurrentDBDocument\r\n\r\nclr.AddReference(\"RevitAPI\")\r\nimport Autodesk\r\nfrom Autodesk.Revit.DB import *\r\n\r\nclr.AddReference(\"RevitNodes\")\r\nimport Revit\r\nclr.ImportExtensions(Revit.Elements)\r\nclr.ImportExtensions(Revit.GeometryConversion)\r\n#The inputs to this node will be stored as a list in the IN variables.\r\nif isinstance(IN[0],list):\r\n\telement = UnwrapElement(IN[0])\r\n\ttoggle = 0\r\nelse:\r\n\telement = [UnwrapElement(IN[0])]\r\n\ttoggle = 1\r\n\t\t\r\ndef nextElements(elem):\r\n\tlistout = []\r\n\ttry:\r\n\t\tconnectors = elem.ConnectorManager.Connectors\r\n\texcept:\r\n\t\tconnectors = elem.MEPModel.ConnectorManager.Connectors\r\n\tfor conn in connectors:\r\n\t\tfor c in conn.AllRefs:\r\n\t\t\tif c.Owner.Id.Equals(elem.Id):\r\n\t\t\t\tcontinue\r\n\t\t\telif c.Owner.GetType() == Mechanical.MechanicalSystem:\r\n\t\t\t\tcontinue\r\n\t\t\telse:\r\n\t\t\t\tnewelem = c.Owner\r\n\t\t\tlistout.append(newelem)\r\n\treturn listout\r\n\r\ndef systemcheck(elem):\r\n\tif elem.GetType() == Mechanical.MechanicalSystem or elem.GetType() == Plumbing.PipingSystem:\r\n\t\treturn True\r\n\telse:\r\n\t\treturn False\r\n\t\r\ndef collector(elem):\r\n\tcont = 0\r\n\tfor x in nextElements(elem):\r\n\t\tif x.Id in lookup:\r\n\t\t\tcont += 1\r\n\t\telse:\r\n\t\t\titem = doc.GetElement(x.Id)\r\n\t\t\tif systemcheck(item):\r\n\t\t\t\treturn elem\r\n\t\t\telse:\r\n\t\t\t\tlookup[x.Id] = item\r\n\t\t\t\tcollector(x)\r\n\tif cont == len(nextElements(elem)):\r\n\t\treturn elem\r\n\t\t\r\n\r\nlistout = []\r\nfor x in element:\r\n\tlookup = {}\r\n\tcollector(x)\r\n\tlistout.append(lookup.values())\r\n\r\n#Assign your output to the OUT variable.\r\nif toggle:\r\n\tOUT = lookup.values()\r\nelse:\r\n\tOUT = listout",
+      "VariableInputPorts": true,
+      "Id": "37389c8149014207ab6e512cf8185263",
+      "Inputs": [
+        {
+          "Id": "5996a3c7ce3a4c109bd1d9f7f8ecf253",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "b8f143283a014ab387aca3404843ad62",
+          "Name": "OUT",
+          "Description": "Result of the python script",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Runs an embedded IronPython script."
+    },
+    {
+      "ConcreteType": "Dynamo.Nodes.DSModelElementSelection, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "InstanceId": [
+        "46bc8225-9502-4eef-9cb7-39d98f411115-018e58e6"
+      ],
+      "Id": "72e69580e6774e83a35338671e031ca3",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "9eee77cd084b48e098dc8b2bac4c7ba4",
+          "Name": "Element",
+          "Description": "The selected elements.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "9eee77cd084b48e098dc8b2bac4c7ba4",
+      "End": "5996a3c7ce3a4c109bd1d9f7f8ecf253",
+      "Id": "fa90e879e0ec4561bfb79c9b4c2ef282"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.4.12684",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Python Script",
+        "Id": "37389c8149014207ab6e512cf8185263",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 644.79257697423589,
+        "Y": 345.10496942654538
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Select Model Element",
+        "Id": "72e69580e6774e83a35338671e031ca3",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 374.0,
+        "Y": 343.0
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "119094f9306343a4a63deebbd2ea8ea1",
+        "Title": "Provides a list of all elements connected to the selected element",
+        "Nodes": [],
+        "Left": 594.60920274889668,
+        "Top": 288.85558390685748,
+        "Width": 0.0,
+        "Height": 0.0,
+        "FontSize": 36.0,
+        "InitialTop": 0.0,
+        "InitialHeight": 0.0,
+        "TextblockHeight": 0.0,
+        "Background": "#FFC1D676"
+      }
+    ],
+    "X": 57.486112195153055,
+    "Y": -198.46343623372235,
+    "Zoom": 1.036057875600608
+  }
+}
