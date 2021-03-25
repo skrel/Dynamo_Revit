@@ -1,0 +1,221 @@
+{
+  "Uuid": "f5f93882-eccf-4c8a-a0d6-5feb6f2ae171",
+  "IsCustomNode": false,
+  "Description": null,
+  "Name": "3DGridLines_20210324",
+  "ElementResolver": {
+    "ResolutionMap": {}
+  },
+  "Inputs": [],
+  "Outputs": [],
+  "Nodes": [
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CodeBlockNodeModel, DynamoCore",
+      "NodeType": "CodeBlockNode",
+      "Code": "\"Generic Models\";",
+      "Id": "0be68e35613849b0ae8b8e52fc2a777a",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "7c1462551b8e4c238bca9e82e4fcd726",
+          "Name": "",
+          "Description": "Value of expression at line 1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Allows for DesignScript code to be authored directly"
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.ZeroTouch.DSFunction, DynamoCore",
+      "NodeType": "FunctionNode",
+      "FunctionSignature": "Revit.Elements.Category.ByName@string",
+      "Id": "b838c85c501341a386c37e2a068a986c",
+      "Inputs": [
+        {
+          "Id": "21f682dd880d4ffaa619120a7bdd99b5",
+          "Name": "name",
+          "Description": "The built in category name.\n\nstring",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "4c9ab3ffcefd48af960bf242aad8498f",
+          "Name": "Category",
+          "Description": "Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Gets a Revit category by the built-in category name.\n\nCategory.ByName (name: string): Category"
+    },
+    {
+      "ConcreteType": "DSRevitNodesUI.ElementsOfCategory, DSRevitNodesUI",
+      "NodeType": "ExtensionNode",
+      "Id": "d64e826abe2445d5bb2c8d0401f57a96",
+      "Inputs": [
+        {
+          "Id": "366a416f5c7f49349506f810dc18ae78",
+          "Name": "Category",
+          "Description": "The Category",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "dbb9b345c5c84bdf9ea32c9672ba5c7e",
+          "Name": "Elements",
+          "Description": "An element type.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Get all elements of the specified category from the model."
+    },
+    {
+      "ConcreteType": "Dynamo.Graph.Nodes.CustomNodes.Function, DynamoCore",
+      "FunctionSignature": "33cb7974-55f9-4652-84cd-d5478b940244",
+      "FunctionType": "Graph",
+      "NodeType": "FunctionNode",
+      "Id": "606ecf40bfb445e99c404fcf50be3923",
+      "Inputs": [
+        {
+          "Id": "f6549466d7ec41ab98e4071c5082174e",
+          "Name": "element",
+          "Description": "var",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "d9747a8839e34dd8a4c9508ea3b62fa1",
+          "Name": "Element0",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "d18392fd2b8740d39bff3ca4fd223cea",
+          "Name": "Element1",
+          "Description": "return value",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Auto",
+      "Description": "Rename 3D Grid"
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "7c1462551b8e4c238bca9e82e4fcd726",
+      "End": "21f682dd880d4ffaa619120a7bdd99b5",
+      "Id": "f1f0b21f5aa548fba5cd86fdf59d4ceb"
+    },
+    {
+      "Start": "4c9ab3ffcefd48af960bf242aad8498f",
+      "End": "366a416f5c7f49349506f810dc18ae78",
+      "Id": "101e39499a5c4b1fa37369d55f3cc4d1"
+    },
+    {
+      "Start": "dbb9b345c5c84bdf9ea32c9672ba5c7e",
+      "End": "f6549466d7ec41ab98e4071c5082174e",
+      "Id": "08b18af3655a4d0885f367c5c9675449"
+    }
+  ],
+  "Dependencies": [
+    "33cb7974-55f9-4652-84cd-d5478b940244"
+  ],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.3.8810",
+      "RunType": "Manual",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Background Preview",
+      "EyeX": -39.927753448486328,
+      "EyeY": 42.318717956542969,
+      "EyeZ": 86.851608276367188,
+      "LookX": 39.927753448486328,
+      "LookY": -42.318717956542969,
+      "LookZ": -86.851608276367188,
+      "UpX": 0.083275705575943,
+      "UpY": 0.97992467880249023,
+      "UpZ": -0.18114286661148071
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Code Block",
+        "Id": "0be68e35613849b0ae8b8e52fc2a777a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 384.98355191915272,
+        "Y": 389.75857249970255
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Category.ByName",
+        "Id": "b838c85c501341a386c37e2a068a986c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 672.00494787287539,
+        "Y": 404.03772952993847
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "All Elements of Category",
+        "Id": "d64e826abe2445d5bb2c8d0401f57a96",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 984.27058143227782,
+        "Y": 369.83195341565767
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Rename.Grid",
+        "Id": "606ecf40bfb445e99c404fcf50be3923",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1299.0105350400868,
+        "Y": 304.75796747258408
+      }
+    ],
+    "Annotations": [],
+    "X": -168.67110491095002,
+    "Y": 58.815872344743696,
+    "Zoom": 0.82925305314810438
+  }
+}
